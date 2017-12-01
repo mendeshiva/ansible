@@ -1,0 +1,15 @@
+---
+ - hosts: webserver
+   tasks:
+    - name: remove apache
+      apt: name=apache2 state=absent
+      when: ansible_os_family == 'Debian'
+      tags:
+       - raju
+    - name: service restart
+      service: name=apache2 state=stopped
+      when: ansible_os_family == 'Debian'
+      tags:
+       - shiva
+       - raju
+
