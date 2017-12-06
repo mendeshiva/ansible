@@ -1,0 +1,9 @@
+---
+ - hosts: all
+   tasks:
+    - name: install pkgs
+      apt: name={{item}} state=present
+      with_items:
+           - memcached
+           - python-memcache
+      when: ansible_os_family == 'Debian'

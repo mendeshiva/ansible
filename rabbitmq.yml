@@ -1,0 +1,16 @@
+---
+ - hosts: all 
+   tasks:
+    - name: install rabbitmq
+      apt: name=rabbitmq-server state=present
+    - name: user add
+      rabbitmq_user:
+        user: shiva
+        password: shiva
+        permissions: 
+          - vhost: /
+            configure_priv: .*
+            read_priv: .*
+            write_priv: .*
+        state: present
+
