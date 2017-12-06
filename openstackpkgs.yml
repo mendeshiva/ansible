@@ -1,0 +1,16 @@
+---
+ - hosts: all 
+   tasks:
+    - name: install software-properties-common
+      apt: name=software-properties-common state=present
+    - name: add repository
+      apt_repository: repo='deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main' filename=cloudarchive-mitaka.list state=present
+   
+    - name: update
+      apt:
+       update_cache=yes
+      tags: shiva
+    - name: upgrade
+      apt:
+        upgrade=dist force=yes
+      tags: ram

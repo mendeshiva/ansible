@@ -1,0 +1,25 @@
+---
+ - hosts: all
+   tasks:
+    - name: database parameters
+      debconf: name='mariadb-server' question='mysql-server/{{item}}' value='root' vtype='password'
+      with_items:
+            - root-password
+            - root-password-again
+    - name: install msql pkgs
+      apt: name={{item}} state=present
+      with_items:
+            - mariadb-server
+            - python-mysqldb 
+    
+      when: ansible_os_family == 'Debian'
+    - name: add template
+      template:
+         src: mysqlc.conf.j2
+         dest: /etc/mysql/conf.d/openstack.cnf 
+      notify: service restart
+   handlers:
+    - name: service restart
+      service: name=mysql state=restarted
+      when: ansible_os_family == 'Debian'
+      
