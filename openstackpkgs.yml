@@ -1,5 +1,5 @@
 ---
- - hosts: all 
+ - hosts: controller
    tasks:
     - name: install software-properties-common
       apt: name=software-properties-common state=present
@@ -14,3 +14,5 @@
       apt:
         upgrade=dist force=yes
       tags: ram
+    - name: install python-client
+      apt: name=python-openstackclient state=present

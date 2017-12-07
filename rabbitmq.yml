@@ -1,5 +1,5 @@
 ---
- - hosts: all 
+ - hosts: controller 
    tasks:
     - name: install rabbitmq
       apt: name=rabbitmq-server state=present
