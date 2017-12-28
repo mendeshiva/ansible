@@ -1,16 +1,12 @@
 ---
- - hosts: controller 
-   tasks:
-    - name: install rabbitmq
-      apt: name=rabbitmq-server state=present
-    - name: user add
-      rabbitmq_user:
-        user: shiva
-        password: shiva
-        permissions: 
-          - vhost: /
-            configure_priv: .*
-            read_priv: .*
-            write_priv: .*
-        state: present
+- hosts: controller
+  remote_user: root 
+  tasks:
+    - name: install package
+      apt: name={{item}} state=present
+      with_items:
+        - rabbitmq-server
+      when: ansible_os_family == 'Debian'
 
+    - name: add users
+      rabbitmq_user: user=root password=root tags=administrator vhost=/ configure_priv=.* write_priv=.* read_priv=.* state=present
